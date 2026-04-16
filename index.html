@@ -47,14 +47,12 @@
   font-family: 'Great Vibes', cursive;
   font-size: clamp(1.8rem, 7vw, 2.4rem);
   color: #c47b5a;
-  margin-bottom: 0.3rem;
 }
 
 .card-sub {
   font-family: 'Montserrat', sans-serif;
   font-size: 11px;
   color: #c47b5a;
-  letter-spacing: 1.5px;
   margin-bottom: 1.4rem;
 }
 
@@ -64,9 +62,7 @@
   border: none;
   padding: 16px;
   border-radius: 40px;
-  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
-  cursor: pointer;
   width: 100%;
 }
 
@@ -82,7 +78,7 @@
 }
 
 .mensagem {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat';
   font-style: italic;
   font-size: 14px;
   color: #8a6a5a;
@@ -95,7 +91,6 @@
   text-align: left;
 }
 
-/* Carrossel */
 .carrossel {
   position: relative;
   margin-top: 1rem;
@@ -111,7 +106,6 @@
 .carrossel-track img {
   min-width: 100%;
   width: 100%;
-  object-fit: contain;
 }
 
 .carr-btn {
@@ -123,8 +117,6 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  font-size: 22px;
-  color: #c47b5a;
 }
 
 .carr-btn.prev { left: 6px; }
@@ -146,29 +138,6 @@
 
 .carr-dot.ativo {
   background: #c47b5a;
-  transform: scale(1.3);
-}
-
-/* YouTube */
-.yt-section { margin-top: 1rem; }
-
-.yt-label {
-  font-family: 'Montserrat';
-  font-size: 10px;
-  color: #b08070;
-  margin-bottom: 6px;
-}
-
-.yt-frame {
-  border-radius: 10px;
-  overflow: hidden;
-  aspect-ratio: 16/9;
-}
-
-.yt-frame iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
 }
 
 .footer {
@@ -193,15 +162,22 @@
 
 <div class="conteudo" id="conteudo">
 
+<!-- 🎧 PLAYER DE ÁUDIO -->
+<div style="margin-top:10px;">
+<audio id="player" loop>
+<source src="https://github.com/talitaGama/Cart-o_dia_das_M-es/raw/f95a4cb53e391d5b211fa35de80fa32ceac6ec15/ReggaeBrasil-malandrinha.mp3" type="audio/mpeg">
+</audio>
+</div>
+
 <div class="mensagem">
 "Seu amor é o solo onde floresci, sua voz é a música que me guia. Obrigada por existir, mamãe."
 </div>
 
 <div class="carrossel" id="carrossel">
 <div class="carrossel-track" id="track">
-                <img src="https://i.postimg.cc/90pq0CqW/e1696dc6-3e57-4ffe-ac68-53411402cc5b.jpg" alt="Foto 1">
-                <img src="https://i.postimg.cc/VLfCTr3J/9c408a1e-64ba-4da1-9ae0-3c3989a08d46.jpg" alt="Foto 2">
-                <img src="https://i.postimg.cc/2S3Bjpjp/e05e0791-7d1a-4269-9714-ad77f7c6907a.jpg" alt="Foto 3">
+<img src="https://i.postimg.cc/90pq0CqW/e1696dc6-3e57-4ffe-ac68-53411402cc5b.jpg" alt="Foto 1">
+<img src="https://i.postimg.cc/VLfCTr3J/9c408a1e-64ba-4da1-9ae0-3c3989a08d46.jpg" alt="Foto 2">
+<img src="https://i.postimg.cc/2S3Bjpjp/e05e0791-7d1a-4269-9714-ad77f7c6907a.jpg" alt="Foto 3">
 </div>
 
 <button class="carr-btn prev" onclick="mover(-1)">‹</button>
@@ -210,21 +186,14 @@
 
 <div class="carr-dots" id="dots"></div>
 
-<div class="yt-section">
-<div class="yt-label">Uma música especial</div>
-<div class="yt-frame">
-<iframe src="https://www.youtube.com/embed/g8sfJKBYNMA?autoplay=1"></iframe>
-</div>
-</div>
-
-<div class="footer">Com amor infinito 💖</div>
+<div class="footer">Com amor, Karen💖</div>
 
 </div>
 </div>
 </div>
 
 <script>
-// Carrossel
+// CARROSSEL
 let atual = 0;
 const total = 3;
 const track = document.getElementById('track');
@@ -251,22 +220,9 @@ function irPara(idx) {
 
 function mover(dir) { irPara(atual + dir); }
 
-let autoSlide = setInterval(() => mover(1), 4000);
+setInterval(() => mover(1), 4000);
 
-const carr = document.getElementById('carrossel');
-let touchStartX = 0;
-
-carr.addEventListener('touchstart', e => {
-  clearInterval(autoSlide);
-  touchStartX = e.touches[0].clientX;
-});
-
-carr.addEventListener('touchend', e => {
-  const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 40) mover(diff > 0 ? 1 : -1);
-});
-
-// Corações
+// CORAÇÕES
 const canvas = document.getElementById('hCanvas');
 const ctx = canvas.getContext('2d');
 const hearts = [];
@@ -292,7 +248,6 @@ function randomHeart() {
 }
 
 function drawHeart(hx, hy, size, color, opacity) {
-  ctx.save();
   ctx.globalAlpha = opacity;
   ctx.fillStyle = color;
   ctx.beginPath();
@@ -303,38 +258,40 @@ function drawHeart(hx, hy, size, color, opacity) {
   ctx.bezierCurveTo(hx, hy+s*9, hx+s*5, hy+s*7, hx+s*5, hy+s*3);
   ctx.bezierCurveTo(hx+s*5, hy, hx, hy, hx, hy+s*2);
   ctx.fill();
-  ctx.restore();
 }
 
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   if (Math.random() < 0.08) hearts.push(randomHeart());
 
-  for (let i = hearts.length-1; i >= 0; i--) {
-    const h = hearts[i];
+  hearts.forEach((h, i) => {
     h.y += h.speed;
-    h.x += h.drift + Math.sin(h.angle)*0.5;
-    h.angle += 0.04;
+    h.x += h.drift;
     h.opacity -= 0.003;
 
-    drawHeart(h.x, h.y, h.size, h.color, Math.max(0, h.opacity));
+    drawHeart(h.x, h.y, h.size, h.color, h.opacity);
 
-    if (h.y > canvas.height+30 || h.opacity <= 0) {
-      hearts.splice(i,1);
-    }
-  }
+    if (h.opacity <= 0) hearts.splice(i,1);
+  });
 
   requestAnimationFrame(loop);
 }
 loop();
 
+// ABRIR + TOCAR MÚSICA
 function abrirCartao() {
   document.querySelector('.open-btn').style.display = 'none';
   const c = document.getElementById('conteudo');
   c.style.display = 'block';
   setTimeout(() => c.style.opacity = '1', 50);
+
+  // 🎵 tocar música (funciona no mobile porque é após clique)
+  const audio = document.getElementById('player');
+  audio.play();
 }
 </script>
 
 </body>
 </html>
+
