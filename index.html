@@ -1,189 +1,254 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cartão Digital - Dia das Mães</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --rosa-seco: #d4a373; /* Tom elegante de rosa seco/nude */
-            --dourado: #b8860b;
-            --branco: #fffafb;
-            --sombra-brilho: rgba(184, 134, 11, 0.4);
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap');
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--branco);
-            color: #4a4a4a;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+.cartao-wrapper {
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff5f8 0%, #fffaf0 100%);
+  border-radius: var(--border-radius-lg);
+}
 
-        /* --- Animação de Corações ao Fundo --- */
-        .heart-particle {
-            position: fixed;
-            color: var(--rosa-seco);
-            font-size: 1.5rem;
-            user-select: none;
-            z-index: -1;
-            animation: fall linear forwards;
-        }
+.heart-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  border: 0.5px solid #f0c8d8;
+  position: relative;
+  z-index: 10;
+}
 
-        /* --- Layout do Cartão --- */
-        .container {
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            position: relative;
-            z-index: 10;
-        }
+.card-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.6rem;
+  color: #c47b5a;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
 
-        header h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem;
-            color: var(--dourado);
-            margin-bottom: 1rem;
-        }
+.card-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: #c47b5a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 1.5rem;
+}
 
-        /* --- Estado Inicial (Escondido) --- */
-        #conteudo-secreto {
-            display: none;
-            opacity: 0;
-            transition: opacity 1.5s ease-in;
-        }
+.open-btn {
+  background: linear-gradient(135deg, #d4a373, #c47b5a);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.open-btn:hover { transform: scale(1.04); opacity: 0.9; }
 
-        .mensagem {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 1.5rem 0;
-            font-style: italic;
-        }
+.conteudo {
+  display: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.conteudo.visivel {
+  display: block;
+  opacity: 1;
+}
 
-        /* --- Grid de Fotos com Efeito Glitter --- */
-        .foto-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 2rem;
-        }
+.mensagem {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #8a6a5a;
+  line-height: 1.7;
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  background: #fff8f3;
+  border-radius: 12px;
+  border-left: 3px solid #d4a373;
+}
 
-        .foto-grid img:first-child {
-            grid-column: span 2;
-        }
+.foto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 1rem 0;
+}
+.foto-grid img:first-child {
+  grid-column: span 2;
+}
+.foto-grid img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  height: 110px;
+  animation: glow-anim 3s infinite alternate;
+}
+.foto-grid img:first-child { height: 160px; }
 
-        .foto-grid img {
-            width: 100%;
-            border-radius: 10px;
-            border: 2px solid var(--branco);
-            box-shadow: 0 0 10px var(--sombra-brilho);
-            animation: pulse-glow 3s infinite alternate;
-        }
+@keyframes glow-anim {
+  from { box-shadow: 0 0 4px rgba(212,163,115,0.2); }
+  to   { box-shadow: 0 0 16px rgba(212,163,115,0.55); }
+}
 
-        @keyframes pulse-glow {
-            from { box-shadow: 0 0 5px var(--sombra-brilho); }
-            to { box-shadow: 0 0 20px var(--dourado); }
-        }
+.yt-section {
+  margin: 1.2rem 0 0.5rem;
+}
+.yt-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  color: #b08070;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.yt-frame {
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 0.5px solid #f0c8d8;
+}
+.yt-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
 
-        /* --- Botão Interativo --- */
-        .btn-abrir {
-            background-color: var(--rosa-seco);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+.footer {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.6rem;
+  color: #c47b5a;
+  margin-top: 1.2rem;
+}
+</style>
 
-        .footer-assinatura {
-            margin-top: 2rem;
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.8rem;
-            color: var(--rosa-seco);
-        }
-    </style>
-</head>
-<body>
+<div class="cartao-wrapper">
+  <canvas class="heart-canvas" id="hCanvas"></canvas>
 
-    <div class="container">
-        <header>
-            <h1>Feliz Dia das Mães</h1>
-        </header>
+  <div class="card">
+    <div class="card-title">Feliz Dia das Mães</div>
+    <div class="card-sub">com todo amor do mundo</div>
 
-        <button class="btn-abrir" id="btnAbrir" onclick="revelarCartao()">Abrir com Amor</button>
+    <button class="open-btn" id="openBtn" onclick="abrirCartao()">Abrir com Amor</button>
 
-        <div id="conteudo-secreto">
-            <div class="mensagem">
-                "Seu amor é o solo onde floresci. Obrigado por ser minha força, meu guia e meu porto seguro. Você é a poesia mais linda que a vida escreveu."
-            </div>
+    <div class="conteudo" id="conteudo">
 
-            <div class="foto-grid">
-                <img src="https://i.postimg.cc/90pq0CqW/e1696dc6-3e57-4ffe-ac68-53411402cc5b.jpg" alt="Foto 1">
+      <div class="mensagem">
+        "Seu amor é o solo onde floresci, sua voz é a música que me guia. Obrigada por existir, mamãe."
+      </div>
+
+      <div class="foto-grid">
+       <img src="https://i.postimg.cc/90pq0CqW/e1696dc6-3e57-4ffe-ac68-53411402cc5b.jpg" alt="Foto 1">
                 <img src="https://i.postimg.cc/VLfCTr3J/9c408a1e-64ba-4da1-9ae0-3c3989a08d46.jpg" alt="Foto 2">
                 <img src="https://i.postimg.cc/2S3Bjpjp/e05e0791-7d1a-4269-9714-ad77f7c6907a.jpg" alt="Foto 3">
-            </div>
+      </div>
 
-            <div class="footer-assinatura">
-                Com amor, Karen
-            </div>
+      <div class="yt-section">
+        <div class="yt-label">Uma música especial para você</div>
+        <div class="yt-frame">
+          <iframe
+            src="https://www.youtube.com/embed/g8sfJKBYNMA?autoplay=1&controls=1&rel=0&modestbranding=1"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+          </iframe>
         </div>
+      </div>
+
+      <div class="footer">Com amor, Karen</div>
     </div>
+  </div>
+</div>
 
-    <script>
-        function revelarCartao() {
-            const conteudo = document.getElementById('conteudo-secreto');
-            const btn = document.getElementById('btnAbrir');
-            
-            btn.style.display = 'none';
-            conteudo.style.display = 'block';
-            setTimeout(() => {
-                conteudo.style.opacity = '1';
-            }, 10);
+<script>
+const canvas = document.getElementById('hCanvas');
+const ctx = canvas.getContext('2d');
+const hearts = [];
 
-            // Inicia a chuva de corações
-            setInterval(createHeart, 300);
-        }
+function resize() {
+  const wrapper = canvas.parentElement;
+  canvas.width = wrapper.offsetWidth;
+  canvas.height = wrapper.offsetHeight;
+}
+resize();
+window.addEventListener('resize', resize);
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-particle');
-            heart.innerHTML = '❤';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            heart.style.opacity = Math.random();
-            
-            document.body.appendChild(heart);
+function randomHeart() {
+  return {
+    x: Math.random() * canvas.width,
+    y: -20,
+    size: Math.random() * 18 + 8,
+    speed: Math.random() * 1.2 + 0.4,
+    opacity: Math.random() * 0.5 + 0.4,
+    swing: Math.random() * 2 - 1,
+    angle: 0,
+    drift: (Math.random() - 0.5) * 0.8,
+    color: ['#e8a0b4','#d4a373','#f4c2c2','#c47b5a'][Math.floor(Math.random()*4)]
+  };
+}
 
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
-        }
-    </script>
-</body>
-</html>
+function drawHeart(hx, hy, size, color, opacity) {
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  const s = size / 10;
+  ctx.moveTo(hx, hy + s * 2);
+  ctx.bezierCurveTo(hx, hy, hx - s * 5, hy, hx - s * 5, hy + s * 3);
+  ctx.bezierCurveTo(hx - s * 5, hy + s * 7, hx, hy + s * 9, hx, hy + s * 10);
+  ctx.bezierCurveTo(hx, hy + s * 9, hx + s * 5, hy + s * 7, hx + s * 5, hy + s * 3);
+  ctx.bezierCurveTo(hx + s * 5, hy, hx, hy, hx, hy + s * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (Math.random() < 0.18) hearts.push(randomHeart());
+
+  for (let i = hearts.length - 1; i >= 0; i--) {
+    const h = hearts[i];
+    h.y += h.speed;
+    h.x += h.drift + Math.sin(h.angle) * 0.5;
+    h.angle += 0.04;
+    h.opacity -= 0.003;
+    drawHeart(h.x, h.y, h.size, h.color, Math.max(0, h.opacity));
+    if (h.y > canvas.height + 30 || h.opacity <= 0) hearts.splice(i, 1);
+  }
+
+  requestAnimationFrame(loop);
+}
+loop();
+
+function abrirCartao() {
+  const btn = document.getElementById('openBtn');
+  const conteudo = document.getElementById('conteudo');
+  btn.style.display = 'none';
+  conteudo.style.display = 'block';
+  setTimeout(() => conteudo.style.opacity = '1', 50);
+  conteudo.classList.add('visivel');
+}
+</script>
