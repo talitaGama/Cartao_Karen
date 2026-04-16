@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartão Digital - Dia das Mães</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa-seco: #d4a373; /* Tom elegante de rosa seco/nude */
+            --dourado: #b8860b;
+            --branco: #fffafb;
+            --sombra-brilho: rgba(184, 134, 11, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--branco);
+            color: #4a4a4a;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- Animação de Corações ao Fundo --- */
+        .heart-particle {
+            position: fixed;
+            color: var(--rosa-seco);
+            font-size: 1.5rem;
+            user-select: none;
+            z-index: -1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* --- Layout do Cartão --- */
+        .container {
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: var(--dourado);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Estado Inicial (Escondido) --- */
+        #conteudo-secreto {
+            display: none;
+            opacity: 0;
+            transition: opacity 1.5s ease-in;
+        }
+
+        .mensagem {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+
+        /* --- Grid de Fotos com Efeito Glitter --- */
+        .foto-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .foto-grid img:first-child {
+            grid-column: span 2;
+        }
+
+        .foto-grid img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid var(--branco);
+            box-shadow: 0 0 10px var(--sombra-brilho);
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 5px var(--sombra-brilho); }
+            to { box-shadow: 0 0 20px var(--dourado); }
+        }
+
+        /* --- Botão Interativo --- */
+        .btn-abrir {
+            background-color: var(--rosa-seco);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .footer-assinatura {
+            margin-top: 2rem;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: var(--rosa-seco);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Feliz Dia das Mães</h1>
+        </header>
+
+        <button class="btn-abrir" id="btnAbrir" onclick="revelarCartao()">Abrir com Amor</button>
+
+        <div id="conteudo-secreto">
+            <div class="mensagem">
+                "Seu amor é o solo onde floresci. Obrigado por ser minha força, meu guia e meu porto seguro. Você é a poesia mais linda que a vida escreveu."
+            </div>
+
+            <div class="foto-grid">
+                <img src="https://i.postimg.cc/90pq0CqW/e1696dc6-3e57-4ffe-ac68-53411402cc5b.jpg" alt="Foto 1">
+                <img src="https://i.postimg.cc/VLfCTr3J/9c408a1e-64ba-4da1-9ae0-3c3989a08d46.jpg" alt="Foto 2">
+                <img src="https://i.postimg.cc/2S3Bjpjp/e05e0791-7d1a-4269-9714-ad77f7c6907a.jpg" alt="Foto 3">
+            </div>
+
+            <div class="footer-assinatura">
+                Com amor, Karen
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function revelarCartao() {
+            const conteudo = document.getElementById('conteudo-secreto');
+            const btn = document.getElementById('btnAbrir');
+            
+            btn.style.display = 'none';
+            conteudo.style.display = 'block';
+            setTimeout(() => {
+                conteudo.style.opacity = '1';
+            }, 10);
+
+            // Inicia a chuva de corações
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
